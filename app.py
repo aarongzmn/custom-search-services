@@ -1,59 +1,54 @@
 import platform
-import base64
-import os
-
-from flask import Flask, request, Response
+import requests
+import unicodedata
+from flask import Flask, redirect
 
 app = Flask(__name__)
 
 
+@app.route("/baseball-savant/<player_name>")
+def baseball_savant(player_name):
+    root_url = "https://baseballsavant.mlb.com"
+    player_name = remove_accents(player_name)
+    player_search = root_url + f"/player/search-all?search={player_name}"
+
+    try:
+        r = requests.get(player_search)
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        raise SystemExit(err)
+
+    search_results = r.json()
+    if len(search_results) == 1:
+        result_name = search_results[0]["name"]
+        result_name = remove_accents(player_name).replace(" ", "-")
+        player_id = search_results[0]["id"]
+        statcast_url = root_url + f"/savant-player/{result_name}-{player_id}"
+        return redirect(statcast_url, code=302)
+    else:
+        return redirect(root_url, code=302)
+
+
+@app.route("/yahoo-baseball/<player_name>")
+def yahoo_baseball(player_name):
+    root_url = "https://sports.yahoo.com"
+    # player_search = root_url + f"/site/api/resource/sports.league.playerssearch;count=10;league=mlb;name={player_name}"
+    return redirect(root_url + "/mlb/players/", code=302)
+
+
 @app.route("/")
-def hello_world():
-    """Responds to any HTTP request.
-    Args:
-        request (flask.Request): HTTP request object.
-    Returns:
-        The response text or any set of values that can be turned into a
-        Response object using
-        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
+def home():
+    about_page = """
+    This service was created to faciliate player searches on Baseball Savant.
+    {Insert GitHub Link for more info.}
     """
-    os_type = platform.system()
-    if os_type == "Linux":
-        client_auth = request.headers.get('CSOAUTH')
-        if not(client_auth) or check_auth(client_auth) is False:
-            return Response("Please check auth creds.", 401)
-
-    request_json = request.get_json()
-    if request.args and "message" in request.args:
-        return request.args.get("message")
-    elif request_json and "message" in request_json:
-        return request_json["message"]
-    else:
-        return "Hello World!"
+    return about_page, 200
 
 
-def check_auth(client_auth) -> bool:
-    """This function is used to authenticate requests.
-    When creating a new service (Cloud Functions or Cloud Run),
-    remember to generate a password (GUID) and save the credentials in Google Secret Manager.
-
-    GUID's can be generated using this code:
-    import uuid
-    str(uuid.uuid4())
-
-    The name of the Cloud Secret should be formatted as f"CSOAUTH_{SERVICE_NAME}".
-    Secret names should be all caps and unserscores in place of spaces and dashes.
-    Example: If the name of this service "random-etl-service",
-    the authentication password should be saved as: "CSOAUTH_RANDOM_ETL_SERVICE".
-
-    This makes it easy to predect secret names if you know
-    the service name and have accesss to Secret Manager.
-    """
-    CSOAUTH = os.getenv(f"CSOAUTH_{os.getenv('K_SERVICE').upper().replace('-', '_')}")
-    if CSOAUTH == client_auth:
-        return True
-    else:
-        return False
+def remove_accents(text):
+    nfkd_text = unicodedata.normalize('NFKD', text)
+    ascii_text = nfkd_text.encode('ASCII', 'ignore').decode()
+    return ascii_text
 
 
 if __name__ == "__main__":
