@@ -1,7 +1,7 @@
 import platform
 import requests
 import unicodedata
-from flask import Flask, redirect
+from flask import Flask, redirect, render_template
 
 app = Flask(__name__)
 
@@ -29,6 +29,7 @@ def baseball_savant(player_name):
         return redirect(root_url, code=302)
 
 
+@app.route("/yahoo-baseball/")
 @app.route("/yahoo-baseball/<player_name>")
 def yahoo_baseball(player_name):
     root_url = "https://sports.yahoo.com"
@@ -38,16 +39,12 @@ def yahoo_baseball(player_name):
 
 @app.route("/")
 def home():
-    about_page = """
-    This service was created to faciliate player searches on Baseball Savant.
-    {Insert GitHub Link for more info.}
-    """
-    return about_page, 200
+    return render_template("about.html")
 
 
 def remove_accents(text):
-    nfkd_text = unicodedata.normalize('NFKD', text)
-    ascii_text = nfkd_text.encode('ASCII', 'ignore').decode()
+    nfkd_text = unicodedata.normalize("NFKD", text)
+    ascii_text = nfkd_text.encode("ASCII", "ignore").decode()
     return ascii_text
 
 

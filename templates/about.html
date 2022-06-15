@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+
+<div class="mx-auto w-75 p-3">
+    <h1>About This App</h1>
+    <p>This service facilitates adding websites to Chrome's "Site Search" feature that would otherwise not be possible
+        because the websites do not offer a query URL. This is done by reverse engineering their "internal" search
+        API's.</p>
+</div>
+
+<div class="mx-auto w-75 p-3">
+    <h3>Supported Websites</h3>
+    <p>The following websites are supported by this service:</p>
+    <ul class="list-group">
+        <a href="/baseball-savant" class="list-group-item list-group-item-action"><b>Baseball Savant (Link not working)</b></a>
+        <a href="/yahoo-baseball" class="list-group-item list-group-item-action"><b>Yahoo Baseball (Link not working)</b></a>
+    </ul>
+
+</div>
+
+<div class="alert alert-primary mx-auto w-75 p-3" role="alert">
+    <a href="https://github.com/aarongzmn/custom-search-services">Read more about this project here.</a>
+</div>
+
+{% endblock %}

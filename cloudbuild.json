@@ -5,7 +5,7 @@
       "args": [
         "build",
         "-t",
-        "gcr.io/big-blend-219115/{CLOUD-RUN-SERVICE-NAME}",
+        "gcr.io/big-blend-219115/custom-search-services",
         "."
       ]
     },
@@ -13,7 +13,7 @@
       "name": "gcr.io/cloud-builders/docker",
       "args": [
         "push",
-        "gcr.io/big-blend-219115/{CLOUD-RUN-SERVICE-NAME}"
+        "gcr.io/big-blend-219115/custom-search-services"
       ]
     },
     {
@@ -21,9 +21,9 @@
       "args": [
         "run",
         "deploy",
-        "{CLOUD-RUN-SERVICE-NAME}",
+        "custom-search-services",
         "--image",
-        "gcr.io/big-blend-219115/{CLOUD-RUN-SERVICE-NAME}",
+        "gcr.io/big-blend-219115/custom-search-services",
         "--region",
         "us-central1",
         "--platform",
@@ -33,6 +33,6 @@
     }
     ],
     "images": [
-      "gcr.io/big-blend-219115/{CLOUD-RUN-SERVICE-NAME}"
+      "gcr.io/big-blend-219115/custom-search-services"
     ]
   }
