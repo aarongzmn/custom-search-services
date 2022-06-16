@@ -12,8 +12,3 @@ Keeping with the Amazon example:
 - So if I wanted to searrch Amazon for "baseball", the URL query would look like this: [https://www.amazon.com/s?k=baseball](https://www.amazon.com/s?k=baseball)
 
 **Not all websites provide a query URL that is as easily accessible. That is the purpose this service attempts to solve.**
-
-
-
-https://user-images.githubusercontent.com/1068345/173973137-8f99b288-aa3f-4a79-af1e-751757f55311.mp4
-
