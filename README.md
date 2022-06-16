@@ -12,3 +12,9 @@ Keeping with the Amazon example:
 - So if I wanted to searrch Amazon for "baseball", the URL query would look like this: [https://www.amazon.com/s?k=baseball](https://www.amazon.com/s?k=baseball)
 
 **Not all websites provide a query URL that is as easily accessible. That is the purpose this service attempts to solve.**
+
+URL Query Format (where '%s' represents the search query):
+- https://custom-search-services-sokb3tjtoa-uc.a.run.app/baseball-savant/%s
+
+Example:
+- https://custom-search-services-sokb3tjtoa-uc.a.run.app/baseball-savant/clayton%20kershaw
