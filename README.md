@@ -18,3 +18,8 @@ URL Query Format (where '%s' represents the search query):
 
 Example:
 - https://custom-search-services-sokb3tjtoa-uc.a.run.app/baseball-savant/clayton%20kershaw
+
+
+### Demo
+https://user-images.githubusercontent.com/1068345/174200126-68bebbbd-8e36-42ec-ac4e-e401094b01a5.mp4
+
